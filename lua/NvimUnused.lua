@@ -40,8 +40,6 @@ Unused.javaClass = function()
 		local founded = false
 		local skiped = false
 
-		print("==> testing " .. class)
-
 		for classB, fileB in pairs(files) do
 			if class == classB then
 				skiped = true
