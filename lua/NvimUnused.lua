@@ -46,16 +46,6 @@ Unused.javaClass = function()
 			if class == classB then
 				skiped = true
 			elseif not skiped then
-				print(
-					"==> "
-						.. class
-						.. " -- "
-						.. classB
-						.. " founded "
-						.. tostring(founded)
-						.. " skiped "
-						.. tostring(skiped)
-				)
 				local fileContent = readFile(fileB)
 
 				if skipFileByContent(classB, fileContent) then
