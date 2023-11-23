@@ -34,7 +34,7 @@ end
 
 local Unused = {}
 Unused.javaClass = function()
-	local files = listFiles("../pocs/java-17-diamond", "java")
+	local files = listFiles(".", "java")
 
 	for class, file in pairs(files) do
 		local founded = false
