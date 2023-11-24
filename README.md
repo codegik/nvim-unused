@@ -2,6 +2,8 @@
 
 Find unused java classes. This plugin will search in current directory looking for classes that are not being used by others.
 
+![nvim-unused plugin](assets/screenshot.png)
+
 ## Setup by plugin managers
 
 ### [packer](https://github.com/wbthomason/packer.nvim)
