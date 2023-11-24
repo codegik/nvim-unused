@@ -67,7 +67,7 @@ end
 
 local Unused = {}
 Unused.javaClass = function()
-	local files = listFiles("../borrower", "java")
+	local files = listFiles(".", "java")
 
 	local outputBuf = FloatWindow.create()
 	FloatWindow.write(outputBuf, "Test")
