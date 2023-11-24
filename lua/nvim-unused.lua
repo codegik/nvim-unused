@@ -70,7 +70,6 @@ Unused.javaClass = function()
 	local files = listFiles(".", "java")
 
 	local outputBuf = FloatWindow.create()
-	FloatWindow.write(outputBuf, "Test")
 
 	for class, file in pairs(files) do
 		local used = false
