@@ -35,9 +35,42 @@ local function skipFileByContent(file, fileContent)
 	return false
 end
 
+local FloatWindow = {}
+
+FloatWindow.textLines = { "", "Searching for unused Classes....", "-------------------------------------------------" }
+
+FloatWindow.write = function(buf, text)
+	table.insert(FloatWindow.textLines, text)
+	vim.api.nvim_buf_set_lines(buf, 0, -1, true, FloatWindow.textLines)
+end
+
+FloatWindow.create = function()
+	local width = 100
+	local height = 10
+	local buf = vim.api.nvim_create_buf(false, true)
+	local ui = vim.api.nvim_list_uis()[1]
+
+	local opts = {
+		relative = "editor",
+		width = width,
+		height = height,
+		col = (ui.width / 2) - (width / 2),
+		row = (ui.height / 2) - (height / 2),
+		anchor = "NW",
+		style = "minimal",
+	}
+
+	vim.api.nvim_open_win(buf, 1, opts)
+
+	return buf
+end
+
 local Unused = {}
 Unused.javaClass = function()
-	local files = listFiles("../pocs/java-21-observability", "java")
+	local files = listFiles("../borrower", "java")
+
+	local outputBuf = FloatWindow.create()
+	FloatWindow.write(outputBuf, "Test")
 
 	for class, file in pairs(files) do
 		local used = false
@@ -59,9 +92,11 @@ Unused.javaClass = function()
 		end
 
 		if not skipped and not used then
-			print("=> Not used " .. file)
+			FloatWindow.write(outputBuf, "=> Not used " .. file)
 		end
 	end
+
+	FloatWindow.write(outputBuf, "finished")
 end
 
 vim.api.nvim_create_user_command("UnusedJava", Unused.javaClass, {})
