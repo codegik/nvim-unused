@@ -39,3 +39,9 @@ luac.out
 *.x86_64
 *.hex
 
+# Dir
+.idea
+
+# OS
+.DS_Store
+

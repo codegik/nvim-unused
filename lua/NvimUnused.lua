@@ -22,9 +22,12 @@ end
 
 local skipByContent = { "void main" }
 
-local function skipFileByContent(class, fileContent)
+local function skipFileByContent(file, fileContent)
 	for i, skip in ipairs(skipByContent) do
-		if fileContent:find("\\" .. skip) then
+		if fileContent:find(skip) then
+			return true
+		end
+		if file:find("src/test") then
 			return true
 		end
 	end
@@ -34,27 +37,28 @@ end
 
 local Unused = {}
 Unused.javaClass = function()
-	local files = listFiles(".", "java")
+	local files = listFiles("../pocs/java-21-observability", "java")
 
 	for class, file in pairs(files) do
-		local founded = false
-		local skiped = false
+		local used = false
+		local skipped = false
+		local classContent = readFile(file)
 
-		for classB, fileB in pairs(files) do
-			if class == classB then
-				skiped = true
-			elseif not skiped then
-				local fileContent = readFile(fileB)
+		if skipFileByContent(file, classContent) then
+			skipped = true
+		else
+			for classB, fileB in pairs(files) do
+				if class ~= classB and not skipped then
+					local classBContent = readFile(fileB)
 
-				if skipFileByContent(classB, fileContent) then
-					skiped = true
-				elseif fileContent:find(class) then
-					founded = true
+					if classBContent:find(class) then
+						used = true
+					end
 				end
 			end
 		end
 
-		if not skiped and not founded then
+		if not skipped and not used then
 			print("=> Not used " .. file)
 		end
 	end
